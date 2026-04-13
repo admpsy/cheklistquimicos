@@ -258,6 +258,13 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:18px 0;}
   .section-card{padding:26px;}
   .page-title{font-size:26px;}
 }
+.btn-foto-item{background:var(--info);color:#fff;border:none;border-radius:6px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .2s;margin-left:8px;}
+.btn-foto-item:hover{background:#2563eb;transform:scale(1.1);}
+.btn-foto-item.has-photo{background:var(--success);}
+.foto-item-preview{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;}
+.preview-img-wrap{position:relative;width:80px;height:80px;border-radius:8px;border:2px solid var(--border-active);overflow:hidden;}
+.preview-img-wrap img{width:100%;height:100%;object-fit:cover;}
+.preview-remove{position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.6);color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
@@ -374,16 +381,8 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:18px 0;}
       <div class="form-group"><label for="inspetor1">Responsável Inspeção *</label><input type="text" id="inspetor1" placeholder="Nome do inspetor"></div>
       <div class="form-group"><label for="inspetor2">Responsável Área *</label><input type="text" id="inspetor2" placeholder="Nome do encarregado"></div>
       <div class="form-group"><label for="data-atendimento">Data da Inspeção *</label><input type="date" id="data-atendimento"></div>
-      <div class="form-group" style="display:none;">
-        <label for="veiculo-placa">Veículo / Placa *</label>
-        <input type="text" id="veiculo-placa" placeholder="Ex: ABC-1234" maxlength="8">
-        <span class="field-hint" id="hint-placa"></span>
-      </div>
-      <div class="form-group">
-        <label for="hora-chegada">Hora *</label>
-        <input type="text" id="hora-chegada" placeholder="HH:MM" maxlength="5" inputmode="numeric">
-        <span class="field-hint" id="hint-hora-chegada"></span>
-      </div>
+      <div class="form-group" style="display:none;"><label for="veiculo-placa">Veículo</label><input type="text" id="veiculo-placa"></div>
+      <div class="form-group" style="display:none;"><label for="hora-chegada">Hora</label><input type="text" id="hora-chegada"></div>
       <div class="form-group" style="display:none;">
         <label for="hora-saida">Hora de Saída *</label>
         <input type="text" id="hora-saida" placeholder="HH:MM" maxlength="5" inputmode="numeric">
@@ -418,33 +417,24 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:18px 0;}
   <div class="section-card">
     <div class="section-header"><div class="section-icon">🔍</div><h3 class="section-title">Inspeção</h3></div>
     <div id="inspecao-itens">
-      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">1.</span> Os equipamentos estão empilhados em conformidade com o procedimento da unidade?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q1-sim" name="q1" value="SIM"><label for="q1-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q1-nao" name="q1" value="NÃO"><label for="q1-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q1-na" name="q1" value="N/A"><label for="q1-na">N/A</label></div></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
-      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">2.</span> Equipamentos e/ou outros recipientes com químicos estão em local contido?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q2-sim" name="q2" value="SIM"><label for="q2-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q2-nao" name="q2" value="NÃO"><label for="q2-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q2-na" name="q2" value="N/A"><label for="q2-na">N/A</label></div></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
-      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">3.</span> Equipamentos e/ou outros recipientes estão identificados / rotulados corretamente?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q3-sim" name="q3" value="SIM"><label for="q3-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q3-nao" name="q3" value="NÃO"><label for="q3-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q3-na" name="q3" value="N/A"><label for="q3-na">N/A</label></div></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
-      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">4.</span> Equipamentos e/ou outros recipientes estão devidamente livres de vazamentos / gotejamentos?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q4-sim" name="q4" value="SIM"><label for="q4-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q4-nao" name="q4" value="NÃO"><label for="q4-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q4-na" name="q4" value="N/A"><label for="q4-na">N/A</label></div></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
-      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">5.</span> Equipamentos e/ou outros recipientes estão segregados corretamente?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q5-sim" name="q5" value="SIM"><label for="q5-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q5-nao" name="q5" value="NÃO"><label for="q5-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q5-na" name="q5" value="N/A"><label for="q5-na">N/A</label></div></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
-      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">6.</span> Equipamentos e/ou outros recipientes estão livres de deformações ou irregularidades?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q6-sim" name="q6" value="SIM"><label for="q6-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q6-nao" name="q6" value="NÃO"><label for="q6-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q6-na" name="q6" value="N/A"><label for="q6-na">N/A</label></div></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
-      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">7.</span> O local de armazenamento está adequado e sinalizado?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q7-sim" name="q7" value="SIM"><label for="q7-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q7-nao" name="q7" value="NÃO"><label for="q7-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q7-na" name="q7" value="N/A"><label for="q7-na">N/A</label></div></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
-      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">8.</span> O local de armazenamento encontra-se limpo e organizado?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q8-sim" name="q8" value="SIM"><label for="q8-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q8-nao" name="q8" value="NÃO"><label for="q8-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q8-na" name="q8" value="N/A"><label for="q8-na">N/A</label></div></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
-      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">9.</span> Há presença de materiais indevidos no local de armazenamento?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q9-sim" name="q9" value="SIM"><label for="q9-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q9-nao" name="q9" value="NÃO"><label for="q9-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q9-na" name="q9" value="N/A"><label for="q9-na">N/A</label></div></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
-      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">10.</span> As FDSs estão disponíveis e de fácil acesso?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q10-sim" name="q10" value="SIM"><label for="q10-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q10-nao" name="q10" value="NÃO"><label for="q10-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q10-na" name="q10" value="N/A"><label for="q10-na">N/A</label></div></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
+      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">1.</span> Os equipamentos estão empilhados em conformidade com o procedimento da unidade?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q1-sim" name="q1" value="SIM"><label for="q1-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q1-nao" name="q1" value="NÃO"><label for="q1-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q1-na" name="q1" value="N/A"><label for="q1-na">N/A</label></div><button type="button" class="btn-foto-item" onclick="triggerFotoItem(1)" id="btn-foto-1">📷</button></div><div class="foto-item-preview" id="preview-q1"></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
+      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">2.</span> Equipamentos e/ou outros recipientes com químicos estão em local contido?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q2-sim" name="q2" value="SIM"><label for="q2-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q2-nao" name="q2" value="NÃO"><label for="q2-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q2-na" name="q2" value="N/A"><label for="q2-na">N/A</label></div><button type="button" class="btn-foto-item" onclick="triggerFotoItem(2)" id="btn-foto-2">📷</button></div><div class="foto-item-preview" id="preview-q2"></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
+      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">3.</span> Equipamentos e/ou outros recipientes estão identificados / rotulados corretamente?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q3-sim" name="q3" value="SIM"><label for="q3-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q3-nao" name="q3" value="NÃO"><label for="q3-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q3-na" name="q3" value="N/A"><label for="q3-na">N/A</label></div><button type="button" class="btn-foto-item" onclick="triggerFotoItem(3)" id="btn-foto-3">📷</button></div><div class="foto-item-preview" id="preview-q3"></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
+      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">4.</span> Equipamentos e/ou outros recipientes estão devidamente livres de vazamentos / gotejamentos?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q4-sim" name="q4" value="SIM"><label for="q4-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q4-nao" name="q4" value="NÃO"><label for="q4-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q4-na" name="q4" value="N/A"><label for="q4-na">N/A</label></div><button type="button" class="btn-foto-item" onclick="triggerFotoItem(4)" id="btn-foto-4">📷</button></div><div class="foto-item-preview" id="preview-q4"></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
+      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">5.</span> Equipamentos e/ou outros recipientes estão segregados corretamente?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q5-sim" name="q5" value="SIM"><label for="q5-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q5-nao" name="q5" value="NÃO"><label for="q5-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q5-na" name="q5" value="N/A"><label for="q5-na">N/A</label></div><button type="button" class="btn-foto-item" onclick="triggerFotoItem(5)" id="btn-foto-5">📷</button></div><div class="foto-item-preview" id="preview-q5"></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
+      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">6.</span> Equipamentos e/ou outros recipientes estão livres de deformações ou irregularidades?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q6-sim" name="q6" value="SIM"><label for="q6-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q6-nao" name="q6" value="NÃO"><label for="q6-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q6-na" name="q6" value="N/A"><label for="q6-na">N/A</label></div><button type="button" class="btn-foto-item" onclick="triggerFotoItem(6)" id="btn-foto-6">📷</button></div><div class="foto-item-preview" id="preview-q6"></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
+      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">7.</span> O local de armazenamento está adequado e sinalizado?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q7-sim" name="q7" value="SIM"><label for="q7-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q7-nao" name="q7" value="NÃO"><label for="q7-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q7-na" name="q7" value="N/A"><label for="q7-na">N/A</label></div><button type="button" class="btn-foto-item" onclick="triggerFotoItem(7)" id="btn-foto-7">📷</button></div><div class="foto-item-preview" id="preview-q7"></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
+      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">8.</span> O local de armazenamento encontra-se limpo e organizado?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q8-sim" name="q8" value="SIM"><label for="q8-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q8-nao" name="q8" value="NÃO"><label for="q8-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q8-na" name="q8" value="N/A"><label for="q8-na">N/A</label></div><button type="button" class="btn-foto-item" onclick="triggerFotoItem(8)" id="btn-foto-8">📷</button></div><div class="foto-item-preview" id="preview-q8"></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
+      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">9.</span> Há presença de materiais indevidos no local de armazenamento?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q9-sim" name="q9" value="SIM"><label for="q9-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q9-nao" name="q9" value="NÃO"><label for="q9-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q9-na" name="q9" value="N/A"><label for="q9-na">N/A</label></div><button type="button" class="btn-foto-item" onclick="triggerFotoItem(9)" id="btn-foto-9">📷</button></div><div class="foto-item-preview" id="preview-q9"></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
+      <div class="inspection-item"><p class="inspection-question"><span class="insp-num">10.</span> As FDSs estão disponíveis e de fácil acesso?</p><div class="radio-group"><div class="radio-pill success"><input type="radio" id="q10-sim" name="q10" value="SIM"><label for="q10-sim">SIM</label></div><div class="radio-pill danger"><input type="radio" id="q10-nao" name="q10" value="NÃO"><label for="q10-nao">NÃO</label></div><div class="radio-pill"><input type="radio" id="q10-na" name="q10" value="N/A"><label for="q10-na">N/A</label></div><button type="button" class="btn-foto-item" onclick="triggerFotoItem(10)" id="btn-foto-10">📷</button></div><div class="foto-item-preview" id="preview-q10"></div><div class="insp-obs-wrap"><label class="insp-obs-label">⚠ Observação sobre o item:</label><textarea class="insp-item-obs" placeholder="Descreva o problema encontrado..."></textarea></div></div>
     </div>
   </div>
 
   <div class="section-card">
-    <div class="section-header"><div class="section-icon">✅</div><h3 class="section-title">Observações e Finalização</h3></div>
-    <div class="form-group" style="margin-bottom:16px;"><label for="observacoes">Observações</label><textarea id="observacoes" placeholder="Digite observações relevantes..."></textarea></div>
-    <hr class="divider">
-    <div class="form-group" style="margin-bottom:18px;">
-      <label>Imagens do Atendimento</label>
-      <div class="photo-upload-area">
-        <input type="file" id="foto" accept="image/*" multiple>
-        <label for="foto" class="btn btn-ghost" style="cursor:pointer;">📷 Selecionar / Tirar Foto</label>
-        <div class="photo-count-badge" id="photo-count"><span>📁</span> 0 fotos</div>
-        <div class="photo-grid" id="fotos"></div>
-      </div>
-    </div>
-    <hr class="divider">
+    <div class="section-header"><div class="section-icon">📝</div><h3 class="section-title">Assinaturas e Finalização</h3></div>
+    <input type="file" id="foto-item-input" accept="image/*" style="display:none;">
+    <div class="form-group" style="display:none;"><textarea id="observacoes"></textarea></div>
+    <div class="form-group" style="display:none;"><input type="file" id="foto"><div id="fotos"></div></div>
     <div class="form-group" style="margin-bottom:16px;">
       <label>Assinatura do Inspetor</label>
       <div class="signature-wrap"><canvas id="signature-canvas"></canvas></div>
@@ -528,6 +518,8 @@ let draftTimer = null;
 let editingId = null;
 const DB_NAME = 'TigerRentankDB', DB_VERSION = 1, STORE_NAME = 'checklists', DRAFT_KEY = 'tiger_draft';
 let db = null;
+let itemPhotos = {}; // Armazena fotos por índice (ex: 1: base64)
+let activeFotoIndex = null;
 
 function fmtDate(d) {
   if (!d) return '—';
@@ -829,6 +821,42 @@ function setupEventListeners() {
 
   // Modal assinatura fullscreen
   setupSigModal();
+
+  // Foto por item
+  document.getElementById('foto-item-input').addEventListener('change', handleItemPhoto);
+}
+
+function triggerFotoItem(idx) {
+  activeFotoIndex = idx;
+  document.getElementById('foto-item-input').click();
+}
+
+async function handleItemPhoto(e) {
+  const file = e.target.files[0];
+  if (!file || activeFotoIndex === null) return;
+  try {
+    const base64 = await compressImage(file, 800, 800, 0.7);
+    itemPhotos[activeFotoIndex] = base64;
+    renderItemPhotoPreview(activeFotoIndex, base64);
+    e.target.value = '';
+  } catch (err) {
+    showNotification('Erro ao processar foto', 'error');
+  }
+}
+
+function renderItemPhotoPreview(idx, base64) {
+  const container = document.getElementById(`preview-q${idx}`);
+  const btn = document.getElementById(`btn-foto-${idx}`);
+  if (!container) return;
+  container.innerHTML = `<div class="preview-img-wrap"><img src="${base64}"><button type="button" class="preview-remove" onclick="removeItemPhoto(${idx})">✕</button></div>`;
+  if (btn) btn.classList.add('has-photo');
+}
+
+function removeItemPhoto(idx) {
+  delete itemPhotos[idx];
+  document.getElementById(`preview-q${idx}`).innerHTML = '';
+  const btn = document.getElementById(`btn-foto-${idx}`);
+  if (btn) btn.classList.remove('has-photo');
 }
 
 // ════════════════════════════════════════
@@ -922,12 +950,13 @@ function collectFormData(id) {
     });
   });
   const servicos = [...document.querySelectorAll('input[name=servicos]:checked')].map(c => c.value);
-  const respostasInspecao = {};
   document.querySelectorAll('#inspecao-itens .inspection-item').forEach((item, i) => {
-    respostasInspecao[`pergunta_${i + 1}`] = {
+    const idx = i + 1;
+    respostasInspecao[`pergunta_${idx}`] = {
       pergunta: item.querySelector('.inspection-question').textContent.trim(),
       resposta: item.querySelector('input[type=radio]:checked')?.value || 'NÃO RESPONDIDO',
-      obsNao:   item.querySelector('.insp-item-obs')?.value || ''
+      obsNao:   item.querySelector('.insp-item-obs')?.value || '',
+      foto:     itemPhotos[idx] || ''
     };
   });
   return {
@@ -959,11 +988,8 @@ function fillFormWithData(d) {
   document.getElementById('inspetor1').value          = d.inspetor1  || '';
   document.getElementById('inspetor2').value          = d.inspetor2  || '';
   document.getElementById('data-atendimento').value   = d.data       || new Date().toISOString().split('T')[0];
-  document.getElementById('veiculo-placa').value      = d.veiculo    || '';
   document.getElementById('cliente').value            = d.cliente    || '';
-  document.getElementById('hora-chegada').value       = d.horaChegada || '';
-  document.getElementById('hora-saida').value         = d.horaSaida  || '';
-  document.getElementById('observacoes').value        = d.observacoes || '';
+  // Removed Placa e Hora fields restoration as they are now hidden or removed
 
   document.getElementById('equipamentos-container').innerHTML = '';
   equipamentoCount = 1;
@@ -994,6 +1020,10 @@ function fillFormWithData(d) {
       const ta = obsWrap.querySelector('textarea');
       if (ta && item.obsNao) ta.value = item.obsNao;
     }
+    if (item.foto) {
+      itemPhotos[i + 1] = item.foto;
+      renderItemPhotoPreview(i + 1, item.foto);
+    }
   });
 
   // status derivado dos equipamentos
@@ -1008,10 +1038,7 @@ function validateForm() {
   const checks = [
     [document.getElementById('inspetor1').value.trim(),    'Informe o nome do inspetor!'],
     [document.getElementById('data-atendimento').value,    'Informe a data do atendimento!'],
-    [document.getElementById('veiculo-placa').value.trim(),'Informe o veículo/placa!'],
-    [document.getElementById('cliente').value.trim(),       'Informe o nome do cliente!'],
-    [document.getElementById('hora-chegada').value,         'Informe a hora de chegada!'],
-    [document.getElementById('hora-saida').value,           'Informe a hora de saída!'],
+    [document.getElementById('cliente').value.trim(),       'Informe o site / área!'],
   ];
   for (const [v, msg] of checks) { if (!v) { showNotification(msg, 'error'); return false; } }
   if (!signaturePadCliente || signaturePadCliente.isEmpty()) {
@@ -1077,7 +1104,10 @@ function confirmSave() {
 //  LIMPAR FORMULÁRIO
 // ════════════════════════════════════════
 function clearForm() {
+  itemPhotos = {};
   ['inspetor1','inspetor2','veiculo-placa','cliente','observacoes','hora-chegada','hora-saida'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  document.querySelectorAll('.foto-item-preview').forEach(p => p.innerHTML = '');
+  document.querySelectorAll('.btn-foto-item').forEach(b => b.classList.remove('has-photo'));
   document.getElementById('data-atendimento').value = new Date().toISOString().split('T')[0];
   document.getElementById('equipamentos-container').innerHTML = '';
   equipamentoCount = 1;
@@ -1440,8 +1470,7 @@ window.generatePDF = function(id) {
     y = secHeader('Informações da Inspeção', y);
     doc.setFontSize(9); doc.setFont(undefined, 'normal'); doc.setTextColor(40, 40, 40);
     doc.text(`Data: ${fmtDate(c.data)}  |  Responsável Inspeção: ${c.inspetor1}`, mg, y); y += 6;
-    doc.text(`Site / Área: ${c.cliente}  |  Responsável Área: ${c.inspetor2 || '--'}`, mg, y); y += 6;
-    doc.text(`Hora: ${c.horaChegada || '--:--'}`, mg, y); y += 6;
+    doc.text(`Site / Área: ${c.cliente}  |  Responsável Área: ${c.inspetor2 || '--'}`, mg, y); y += 8;
     y += 4;
 
     // === EQUIPAMENTOS E SERVIÇOS REMOVIDOS ===
@@ -1454,14 +1483,31 @@ window.generatePDF = function(id) {
       const maxQ = W - 2*mg - 26;
       const qL = doc.splitTextToSize(item.pergunta, maxQ);
       const obsL = (item.resposta === 'NÃO' && item.obsNao) ? doc.splitTextToSize('Obs: '+item.obsNao, maxQ) : [];
-      const ih = Math.max(qL.length*3.8+5, 9) + (obsL.length > 0 ? obsL.length*3.2+2 : 0);
+      let ih = Math.max(qL.length*3.8+5, 9) + (obsL.length > 0 ? obsL.length*3.2+2 : 0);
+      
+      const hasImg = !!item.foto;
+      const imgW = 40, imgH = 30;
+      if (hasImg) ih += imgH + 4;
+
       chk(ih+3);
       const isNao = item.resposta === 'NÃO';
       doc.setFillColor(...(isNao ? [255,248,248] : [249,249,247])); doc.setDrawColor(...(isNao ? [252,165,165] : [218,218,215])); doc.setLineWidth(isNao ? 0.4 : 0.25);
       doc.roundedRect(mg, y, W-2*mg, ih, 1.5, 1.5, 'FD');
       doc.setFontSize(7.5); doc.setTextColor(40,40,40); doc.text(qL, mg+3, y+4);
       pillText(item.resposta, W-mg-22, y+5, item.resposta==='SIM'?'SIM':item.resposta==='NÃO'?'NAO':'NA');
-      if (obsL.length) { const oY = y+4+qL.length*3.8+1; doc.setFontSize(7); doc.setTextColor(180,40,40); doc.text(obsL, mg+4, oY); }
+      
+      let currY = y+4+qL.length*3.8+1;
+      if (obsL.length) { 
+        doc.setFontSize(7); doc.setTextColor(180,40,40); doc.text(obsL, mg+4, currY); 
+        currY += obsL.length*3.2 + 2;
+      }
+
+      if (hasImg) {
+        try {
+          doc.addImage(item.foto, 'JPEG', mg+4, currY, imgW, imgH);
+        } catch(e) { console.error('Erro ao add foto item PDF', e); }
+      }
+
       y += ih + 3;
     });
     y += 2;

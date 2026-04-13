@@ -1060,10 +1060,7 @@ function collectFormData(id) {
     inspetor1:         document.getElementById('inspetor1').value,
     inspetor2:         document.getElementById('inspetor2').value,
     data:              document.getElementById('data-atendimento').value,
-    veiculo:           document.getElementById('veiculo-placa').value,
     cliente:           document.getElementById('cliente').value,
-    horaChegada:       document.getElementById('hora-chegada').value,
-    horaSaida:         document.getElementById('hora-saida').value,
     equipamentos, servicos, respostasInspecao,
     observacoes:       document.getElementById('observacoes').value,
     status:            (() => {
@@ -1075,7 +1072,7 @@ function collectFormData(id) {
     })(),
     assinatura:        signaturePad?.isEmpty() ? '' : signaturePad?.toDataURL(),
     assinaturaCliente: signaturePadCliente?.isEmpty() ? '' : signaturePadCliente?.toDataURL(),
-    fotos:             fotosTemp.map(f => ({ nome: f.nome, base64: f.base64, tipo: f.tipo })),
+    fotos:             Object.entries(itemPhotos).map(([idx, base64]) => ({ nome: `Item ${idx}`, base64, tipo: 'image/jpeg' })),
     compliance:        (() => {
       const resp = Object.values(respostasInspecao);
       const sim = resp.filter(r => r.resposta === 'SIM').length;

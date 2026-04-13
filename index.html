@@ -936,6 +936,7 @@ function updatePhotoCount() {
 // ════════════════════════════════════════
 function collectFormData(id) {
   const equipamentos = [];
+  const respostasInspecao = {};
   document.querySelectorAll('.equipamento-card').forEach(item => {
     equipamentos.push({
       serie:       item.querySelector('.equipamento-serie')?.value || '',

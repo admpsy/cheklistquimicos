@@ -946,9 +946,6 @@ function updateComplianceScore() {
     summary.style.display = 'none';
   }
 }
-  container.innerHTML = `<div class="preview-img-wrap"><img src="${base64}"><button type="button" class="preview-remove" onclick="removeItemPhoto(${idx})">✕</button></div>`;
-  if (btn) btn.classList.add('has-photo');
-}
 
 function removeItemPhoto(idx) {
   delete itemPhotos[idx];
